@@ -46,8 +46,8 @@
         document.addEventListener("submit",sendData);
         function sendData(e){
             e.preventDefault();
-            const a = document.getElementById("#num1").value;
-            const b = document.getElementById("#num2").value;
+            const a = document.querySelector("#num1").value;
+            const b = document.querySelector("#num2").value;
             fetch("/add",{
                 method:"POST",
                 headers:{
