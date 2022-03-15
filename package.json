@@ -1,0 +1,28 @@
+{
+  "name": "rest_tutorial",
+  "version": "1.0.0",
+  "description": "Creation of REST API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Huvinesh-Rajendran-12/rest_tutorial.git"
+  },
+  "keywords": [],
+  "author": "Huvinesh Rajendran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Huvinesh-Rajendran-12/rest_tutorial/issues"
+  },
+  "homepage": "https://github.com/Huvinesh-Rajendran-12/rest_tutorial#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "joi": "^17.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.11.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
