@@ -23,23 +23,19 @@ app.get('/api/courses', (req, res) => {
 app.get('/api/courses/:id', (req, res) => {
   const course = courses.find((c) => c.id === parseInt(req.params.id));
   if (!course) {
-    res.status(404).send('The course with the given ID was not found.');
+    return res.status(404).send('The course with the given ID was not found.');
   }
   res.send(course);
 });
 
 // POST method for specific course
 app.post('/api/courses', (req, res) => {
-  const schema = {
-    name: Joi.string().min(3).required(),
-  };
-  const result = schema.validate(req.body, schema);
-  console.log(result);
-  if (result.error) {
-    res.status(400)
-        .send(result.error.details[0].message);
-    return;
-  };
+  // Validate course
+  const {error} = validateCourse(req.body);
+  // If invalid, return 400 - Bad request
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
   const course = {
     id: courses.length + 1,
     name: req.body.name,
@@ -54,3 +50,46 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}.`);
 });
 
+// PUT request
+app.put('/api/courses/:id', (req, res) => {
+  // Look up the course
+  const course = courses.find((c) => c.id === parseInt(req.params.id));
+  // If course not found, return 404
+  if (!course) {
+    return res.status(404).send('The course with the given ID was not found.');
+  }
+  // Validate course
+  const {error} = validateCourse(req.body);
+  // If invalid, return 400 - Bad request
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
+  // Update course
+  course.name = req.body.name;
+  res.send(course);
+});
+/**
+ *
+ * @param {course} course
+ * @return {object} result
+ */
+function validateCourse(course) {
+  const schema = Joi.object({
+    name: Joi.string().min(3).required(),
+  });
+  return schema.validate(course);
+}
+
+// DELETE request
+app.delete('/api/courses/:id', (req, res) => {
+  // Look up the course
+  const course = courses.find((c) => c.id === parseInt(req.params.id));
+  // If course not found, return 404
+  if (!course) {
+    return res.status(404).send('The course with the given ID was not found.');
+  }
+  // Delete
+  const index = courses.indexOf(course);
+  courses.splice(index, 1);
+  res.send(course);
+});
